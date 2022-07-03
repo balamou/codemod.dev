@@ -10,15 +10,14 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Globals",
       filename: "index.html",
+      template: "./src/template.html",
       hash: true,
-      template: "./src/index.html",
     }),
   ],
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "main.js",
+    filename: "main.[contenthash].js",
     clean: true, // clean output folder anytime we build
   },
 };

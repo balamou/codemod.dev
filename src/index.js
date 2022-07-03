@@ -1,3 +1,3 @@
 window.addEventListener("load", () => {
-  document.write("Hello World!");
+  document.write("Hello World!xxxxx");
 });
