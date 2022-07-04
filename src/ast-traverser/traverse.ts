@@ -1,7 +1,8 @@
 import * as babel from '@babel/standalone';
+import * as cytoscape from 'cytoscape';
 import plugin, {SharedObj} from './plugin';
 
-export function traverse(inputCode: string) {
+export function traverse(inputCode: string, cy: cytoscape.Core) {
   const sharedObj: SharedObj = {
     globalVars: [],
     topLevelFunctions: [],

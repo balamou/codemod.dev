@@ -26,14 +26,6 @@ export function main() {
     theme: 'vs-dark',
   });
 
-  callGraphButton?.addEventListener('click', () => {
-    const code = editor.getValue();
-
-    // editor.setValue(code.replace(/^\s+/gm, ''));
-
-    traverse(code);
-  });
-
   const cytoscapeOptions = {
     elements: [
       // list of graph elements to start with
@@ -80,5 +72,13 @@ export function main() {
   const cy = cytoscape({
     container: document.querySelector<HTMLDivElement>('.graph'), // container to render in
     ...cytoscapeOptions,
+  });
+
+  callGraphButton?.addEventListener('click', () => {
+    const code = editor.getValue();
+
+    // editor.setValue(code.replace(/^\s+/gm, ''));
+
+    traverse(code, cy);
   });
 }
