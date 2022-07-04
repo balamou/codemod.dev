@@ -9,6 +9,14 @@ html {
   font-size: 62.5%;
 }
 
+body {
+  font-size: 1.6em;
+}
+
+.graph {
+  padding: 1em;
+}
+
 main {
   display: flex;
   flex-direction: column;

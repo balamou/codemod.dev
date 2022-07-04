@@ -1,4 +1,5 @@
 import * as monaco from 'monaco-editor';
+import {traverse} from './ast-traverser/traverse';
 
 export function main() {
   const editorContainer = document.querySelector<HTMLElement>('.monaco-editor');
@@ -26,6 +27,8 @@ export function main() {
   callGraphButton?.addEventListener('click', () => {
     const code = editor.getValue();
 
-    editor.setValue(code.replace(/^\s+/gm, ''));
+    // editor.setValue(code.replace(/^\s+/gm, ''));
+
+    traverse(code);
   });
 }
