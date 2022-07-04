@@ -29,7 +29,7 @@ window.addEventListener('load', () => {
     return;
   }
 
-  monaco.editor.create(editorContainer, {
+  const editor = monaco.editor.create(editorContainer, {
     value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
     language: 'typescript',
     theme: 'vs-dark',

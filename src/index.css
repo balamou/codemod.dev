@@ -4,9 +4,20 @@
   padding: 0;
 }
 
+html {
+  /* 62.5% of 16px browser font size is 10px */
+  font-size: 62.5%;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .wrapper {
   display: flex;
-  height: 80vh;
+  flex-grow: 1;
 }
 
 .monaco-editor {
@@ -15,4 +26,17 @@
 
 .graph {
   width: 50%;
+}
+
+.command-panel {
+  height: 4em;
+  background-color: rgb(66, 66, 66);
+  display: flex;
+  align-items: center;
+  column-gap: 1em;
+  padding: 1em;
+}
+
+button {
+  padding: 0.3em 0.6em;
 }
