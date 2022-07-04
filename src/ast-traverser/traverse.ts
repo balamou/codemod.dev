@@ -13,13 +13,6 @@ export function traverse(inputCode: string) {
     ast: false,
   });
 
-  console.log(sharedObj.globalVars);
-
-  const graph = document.querySelector('.graph');
-
-  if (!graph) {
-    return;
-  }
-
+  const graph = document.querySelector<HTMLDivElement>('.graph')!;
   graph.innerHTML = sharedObj.globalVars.join('<br/>');
 }

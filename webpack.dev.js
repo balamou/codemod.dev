@@ -24,9 +24,14 @@ module.exports = merge(common, {
   },
   ignoreWarnings: [
     {
+      // https://github.com/babel/babel/issues/14301#issuecomment-1054299724
       module: /node_modules\/\@babel\/standalone\/babel.js/,
-      message:
-        /Critical\sdependency:\sthe\srequest\sof\sa\sdependency\sis\san\sexpression/,
+      message: new RegExp(
+        'Critical dependency: the request of a dependency is an expression'.replace(
+          /\s/g,
+          '\\s',
+        ),
+      ),
     },
   ],
 });
