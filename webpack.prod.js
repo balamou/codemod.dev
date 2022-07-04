@@ -6,6 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = merge(common, {
   mode: 'production',
   output: {
+    globalObject: 'self',
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].bundle.js',
     clean: true, // clean output folder anytime we build

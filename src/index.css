@@ -1,5 +1,18 @@
-body {
-  width: 800px;
-  height: 600px;
-  border: 1px solid #ccc;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  display: flex;
+  height: 80vh;
+}
+
+.monaco-editor {
+  width: 50%;
+}
+
+.graph {
+  width: 50%;
 }

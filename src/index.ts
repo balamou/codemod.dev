@@ -4,7 +4,7 @@ import './index.css';
 // @ts-ignore
 self.MonacoEnvironment = {
   // @ts-ignore
-  getWorkerUrl: function (_moduleId, label) {
+  getWorkerUrl: (_moduleId, label) => {
     if (label === 'json') {
       return './json.worker.bundle.js';
     }
@@ -21,7 +21,17 @@ self.MonacoEnvironment = {
   },
 };
 
-monaco.editor.create(document.body, {
-  value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
-  language: 'typescript',
+window.addEventListener('load', () => {
+  const editorContainer = document.querySelector<HTMLElement>('.monaco-editor');
+
+  if (!editorContainer) {
+    // log error
+    return;
+  }
+
+  monaco.editor.create(editorContainer, {
+    value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+    language: 'typescript',
+    theme: 'vs-dark',
+  });
 });

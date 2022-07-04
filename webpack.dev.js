@@ -12,7 +12,12 @@ module.exports = merge(common, {
     hot: true,
     port: 8080,
   },
+  optimization: {
+    // https://stackoverflow.com/a/66197410
+    runtimeChunk: 'single',
+  },
   output: {
+    globalObject: 'self',
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js', // no content hash here for dev
     clean: true, // clean output folder anytime we build
