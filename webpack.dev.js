@@ -7,10 +7,14 @@ module.exports = merge(common, {
   devtool: 'inline-source-map', // to enable source maps
   devServer: {
     static: './dist', // https://webpack.js.org/guides/development/#using-webpack-dev-server
+    open: true,
+    compress: true,
+    hot: true,
+    port: 8080,
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js', // no content hash here for dev
+    filename: '[name].bundle.js', // no content hash here for dev
     clean: true, // clean output folder anytime we build
   },
 });

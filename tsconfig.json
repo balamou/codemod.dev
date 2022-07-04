@@ -3,10 +3,18 @@
     "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "strict": true,
     "module": "es6",
     "target": "es5",
     "jsx": "react",
     "allowJs": true,
-    "moduleResolution": "node"
-  }
+    "moduleResolution": "node",
+    "baseUrl": "./node_modules",
+    "lib": ["dom", "es5", "es2015.collection", "es2015.promise"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "src/**/*.test.ts", "src/**/*.test.tsx"]
 }

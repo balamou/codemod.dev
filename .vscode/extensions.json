@@ -5,7 +5,6 @@
   // List of extensions which should be recommended for users of this workspace.
   "recommendations": [
     "esbenp.prettier-vscode", // format on save
-    "ms-vscode.vscode-typescript-tslint-plugin",
     "stylelint.vscode-stylelint",
     "PKief.material-icon-theme",
     "deque-systems.vscode-axe-linter", // accesibility
