@@ -22,4 +22,11 @@ module.exports = merge(common, {
     filename: '[name].bundle.js', // no content hash here for dev
     clean: true, // clean output folder anytime we build
   },
+  ignoreWarnings: [
+    {
+      module: /node_modules\/\@babel\/standalone\/babel.js/,
+      message:
+        /Critical\sdependency:\sthe\srequest\sof\sa\sdependency\sis\san\sexpression/,
+    },
+  ],
 });
