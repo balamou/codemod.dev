@@ -22,6 +22,8 @@ module.exports = {
       },
       {
         test: /\.ttf$/,
+        // file-loder is depracated
+        // https://webpack.js.org/guides/asset-modules/
         use: ['file-loader'],
       },
     ],

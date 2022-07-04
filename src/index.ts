@@ -1,5 +1,5 @@
-import * as monaco from 'monaco-editor';
 import './index.css';
+import {main} from './main';
 
 // @ts-ignore
 self.MonacoEnvironment = {
@@ -22,29 +22,5 @@ self.MonacoEnvironment = {
 };
 
 window.addEventListener('load', () => {
-  const editorContainer = document.querySelector<HTMLElement>('.monaco-editor');
-  const callGraphButton =
-    document.querySelector<HTMLElement>('#call-graph-btn');
-  const variablesGraphBtn = document.querySelector<HTMLElement>(
-    '#variables-graph-btn',
-  );
-
-  if (!editorContainer) {
-    // log error
-    return;
-  }
-
-  const initialCode = `function x() {
-    \tconsole.log("Hello world!");
-  }`.replace(/^\s*/m, '');
-
-  const editor = monaco.editor.create(editorContainer, {
-    value: initialCode,
-    language: 'typescript',
-    theme: 'vs-dark',
-  });
-
-  callGraphButton?.addEventListener('click', () => {
-    console.log(editor.getValue());
-  });
+  main();
 });
