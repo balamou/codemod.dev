@@ -1,4 +1,12 @@
-export function findLeftMostName(someObject: any): string | null {
+/**
+ * Find left most name in a member exression
+ *
+ * @example
+ * weWantThisValue.data = [3, 4, 6];
+ * // or
+ * weWantThisValue.getElementById("root").innerHTML = 10;
+ */
+export function findLeftMostName(someObject: any): string | undefined {
   if (someObject.hasOwnProperty('name')) {
     return someObject.name;
   }
@@ -13,5 +21,5 @@ export function findLeftMostName(someObject: any): string | null {
     return findLeftMostName(someObject.callee);
   }
 
-  return null;
+  return;
 }

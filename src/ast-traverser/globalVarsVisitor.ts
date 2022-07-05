@@ -1,5 +1,5 @@
 import {NodePath, Visitor} from '@babel/core';
-import {Identifier} from '@babel/types';
+import {Identifier, LVal} from '@babel/types';
 import {findLeftMostName} from './helpers/findLeftMostName';
 import {isPartOfPerformingACall} from './helpers/isPartOfPerformingACall';
 import {isReferencedInTheLeftExpression} from './helpers/isReferencedInTheLeftExpression';
@@ -11,35 +11,43 @@ type ReferencedVisitor<T> = Visitor<T> & {
   ReferencedIdentifier: (this: T, path: NodePath<Identifier>) => void;
 };
 
+function getLeftValName(leftNode: LVal) {
+  if (isIdentifier(leftNode)) {
+    return leftNode.name;
+  }
+
+  if (isMemberExpression(leftNode)) {
+    // varName = leftNode.object.name; // doesn't work as 'name' can be nested
+
+    return findLeftMostName(leftNode)!;
+  }
+
+  return;
+}
+
 export const GlobalVarsVisitor: ReferencedVisitor<{
   globalVariables: CapturedGlobals;
 }> = {
   AssignmentExpression(path) {
     const leftNode = path.node.left;
-    let varName = '';
+    let varName = getLeftValName(leftNode);
+    const {globalVariables} = this;
 
-    if (isIdentifier(leftNode)) {
-      varName = leftNode.name;
-    } else if (isMemberExpression(leftNode)) {
-      // varName = leftNode.object.name; // doesn't work as 'name' can be nested
-
-      varName = findLeftMostName(leftNode)!;
-    } else {
-      return; // EXIT
+    if (!varName) {
+      return;
     }
-
     console.log(varName);
 
     const isVariableLocal = isVariableDefinedWithin(
       path,
       varName,
-      this.globalVariables.functionName, // parent function name
+      globalVariables.functionName, // parent function name
     );
     console.log(`Is ${varName} global:`, !isVariableLocal, '\n');
 
     // means it is a global variable
     if (!isVariableLocal) {
-      this.globalVariables.write.push(varName);
+      globalVariables.write.push(varName);
     }
   },
   CallExpression(path) {
@@ -51,13 +59,13 @@ export const GlobalVarsVisitor: ReferencedVisitor<{
   },
   ReferencedIdentifier(path) {
     const identifier = path.node.name;
-    console.log('~~~~~REF IDENT', identifier);
+    const {globalVariables} = this;
 
     // check if identifier is a Top-level function
     // probably used like this `const abc = someTopLevelFunction`
     // or `doSomethingWithCallback(topLevelFunction)`
-    if (this.globalVariables.topLevelFunctions.has(identifier)) {
-      this.globalVariables.functions.push(identifier);
+    if (globalVariables.topLevelFunctions.has(identifier)) {
+      globalVariables.functions.push(identifier);
       return;
     }
 
@@ -72,11 +80,11 @@ export const GlobalVarsVisitor: ReferencedVisitor<{
     const isItLocal = isVariableDefinedWithin(
       path,
       identifier,
-      this.globalVariables.functionName, // parent function name
+      globalVariables.functionName, // parent function name
     );
 
     if (!isItLocal) {
-      this.globalVariables.read.push(identifier); // global read
+      globalVariables.read.push(identifier); // global read
     }
   },
 };
