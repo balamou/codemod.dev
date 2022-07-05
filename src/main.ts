@@ -1,6 +1,7 @@
 import * as monaco from 'monaco-editor';
 import {traverse} from './ast-traverser/traverse';
 import * as cytoscape from 'cytoscape';
+import * as dagre from 'cytoscape-dagre';
 
 export function main() {
   const editorContainer =
@@ -50,9 +51,10 @@ export function main() {
     ],
     layout: {
       name: 'grid',
-      rows: 1,
     },
   };
+
+  cytoscape.use(dagre);
 
   const cy = cytoscape({
     container: document.querySelector<HTMLDivElement>('.graph'), // container to render in
@@ -65,5 +67,7 @@ export function main() {
     // editor.setValue(code.replace(/^\s+/gm, ''));
 
     traverse(code, cy);
+
+    cy.layout({name: 'dagre'}).run();
   });
 }
