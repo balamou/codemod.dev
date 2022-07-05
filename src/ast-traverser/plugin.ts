@@ -5,18 +5,14 @@ import {
   FunctionDeclaration,
 } from '@babel/types';
 import {GlobalVarsVisitor} from './globalVarsVisitor';
-
-interface Edge {
-  funcName: string;
-  to: string[];
-}
-const edges: Edge[] = [];
+import {Graph} from './graph/graph';
 
 const isDefined = <T>(v: T | null | undefined): v is T => !v;
 
 export interface SharedObj {
   globalVars: string[];
   topLevelFunctions: string[];
+  callGraph: Graph<string>;
 }
 
 export interface CapturedGlobals {
@@ -72,6 +68,8 @@ export default (sharedObj: SharedObj) => (): PluginItem => {
         };
 
         path.traverse(GlobalVarsVisitor, {globalVariables});
+
+        sharedObj.callGraph.addEdges(functionName, globalVariables.functions);
 
         // const {
         //   onlyInA: onlyRead,
