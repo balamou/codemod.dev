@@ -1,11 +1,14 @@
 import {NodePath, Visitor} from '@babel/core';
 import {Identifier, LVal} from '@babel/types';
-import {findLeftMostName} from './helpers/findLeftMostName';
-import {isPartOfPerformingACall} from './helpers/isPartOfPerformingACall';
-import {isReferencedInTheLeftExpression} from './helpers/isReferencedInTheLeftExpression';
-import {isVariableDefinedWithin} from './helpers/isVariableDefinedWithin';
+
 import {CapturedGlobals} from './plugin';
 import {isIdentifier, isMemberExpression} from './utils/typeGuards';
+import {
+  findLeftMostName,
+  isPartOfPerformingACall,
+  isReferencedInTheLeftExpression,
+  isVariableDefinedWithin,
+} from './helpers';
 
 type ReferencedVisitor<T> = Visitor<T> & {
   ReferencedIdentifier: (this: T, path: NodePath<Identifier>) => void;
