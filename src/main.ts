@@ -27,6 +27,41 @@ export function main() {
     theme: 'vs-dark',
   });
 
+  const darkModeStyle = `
+  node {
+    width: 40;
+    height: 40;
+    font-size: 9;
+    font-weight: bold;
+    min-zoomed-font-size: 4;
+    label: data(id);
+    text-wrap: wrap;
+    text-max-width: 50;
+    text-valign: center;
+    text-halign: center;
+    text-events: yes;
+    color: #000;
+    text-outline-width: 1;
+    text-outline-color: #fff;
+    text-outline-opacity: 1;
+    overlay-color: #fff;
+
+    background-color: #FACD37;
+    text-outline-color: #FACD37;
+  }
+
+  edge {
+    curve-style: haystack;
+    haystack-radius: 0;
+    opacity: 0.333;
+    width: 2;
+    z-index: 0;
+    overlay-opacity: 0;
+    target-arrow-color: #ccc;
+    target-arrow-shape: triangle;
+  }
+  ` as any;
+
   const cytoscapeOptions = {
     style: [
       // the stylesheet for the graph
@@ -68,6 +103,7 @@ export function main() {
 
     traverse(code, cy);
 
-    cy.layout({name: 'dagre'}).run();
+    // More dagre options https://github.com/cytoscape/cytoscape.js-dagre
+    cy.layout({name: 'dagre', rankDir: 'TB'} as any).run();
   });
 }
