@@ -1,4 +1,4 @@
-import {mapify} from '../utils/mapify';
+import {inlineMapify} from '../utils/mapify';
 
 export class Graph<T> {
   private verticies: Set<T>;
@@ -88,10 +88,8 @@ export class Graph<T> {
   }
 }
 
-export function mermaid<U>(graph: Graph<U>) {
-  const map = mapify(graph.visitEdges);
-
-  return map((vertex, children) => {
+export function mermaid<E>(graph: Graph<E>) {
+  return inlineMapify(graph.visitEdges, (vertex, children) => {
     if (children.length === 0) return '';
 
     return `${vertex}-->${children.join(' & ')}`;

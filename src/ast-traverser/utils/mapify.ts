@@ -1,6 +1,6 @@
-type Args<T> = T extends (...args: infer A) => void ? A : never;
-type FirstArg<T> = Args<T> extends [infer A, ...any] ? A : never;
-type RestArgs<T> = Args<T> extends [any, ...infer A] ? A : never;
+type Args<T> = T extends (...args: infer Args) => any ? Args : never;
+type FirstArg<T> = Args<T> extends [infer First, ...any] ? First : never;
+type RestArgs<T> = Args<T> extends [any, ...infer Rest] ? Rest : never;
 
 export function mapify<F extends Function>(fn: F) {
   type FirstCbArgs = Args<FirstArg<F>>;
@@ -14,4 +14,20 @@ export function mapify<F extends Function>(fn: F) {
 
     return result;
   };
+}
+
+export function inlineMapify<F extends Function, T>(
+  fn: F,
+  callback: (...args: Args<FirstArg<F>>) => T,
+  ...rest: RestArgs<F>
+) {
+  type FirstCbArgs = Args<FirstArg<F>>;
+
+  const result: T[] = [];
+
+  fn((...args: FirstCbArgs) => {
+    result.push(callback(...args));
+  }, ...rest);
+
+  return result;
 }
