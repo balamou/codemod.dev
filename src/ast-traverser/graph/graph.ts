@@ -1,3 +1,5 @@
+import {mapify} from '../utils/mapify';
+
 export class Graph<T> {
   private verticies: Set<T>;
   private edges: Map<T, Set<T>>;
@@ -70,13 +72,13 @@ export class Graph<T> {
   /**
    * Visits all edges in an unspecified order
    */
-  visitEdges(fn: (vertex: T, children: T[]) => void) {
+  visitEdges = (fn: (vertex: T, children: T[]) => void) => {
     this.verticies.forEach((vertex) => {
       const children = this.edges.get(vertex);
 
       fn(vertex, Array.from(children ?? []));
     });
-  }
+  };
 
   /**
    * Visits all verticies in an unspecified order
@@ -86,13 +88,12 @@ export class Graph<T> {
   }
 }
 
-export function mermaid<T>(graph: Graph<T>) {
-  let result = '';
-  graph.visitEdges((vertex, children) => {
-    if (children.length === 0) return;
+export function mermaid<U>(graph: Graph<U>) {
+  const map = mapify(graph.visitEdges);
 
-    result += `${vertex}-->${children.join(' & ')}\n`;
-  });
+  return map((vertex, children) => {
+    if (children.length === 0) return '';
 
-  return result;
+    return `${vertex}-->${children.join(' & ')}`;
+  }).join('\n');
 }
