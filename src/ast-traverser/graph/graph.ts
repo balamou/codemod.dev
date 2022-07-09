@@ -44,26 +44,10 @@ export class Graph<T> {
     });
   }
 
-  mermaid() {
-    let result = '';
-    this.verticies.forEach((vertex) => {
-      const children = this.edges.get(vertex);
-
-      if (!children || children.size === 0) return;
-
-      result += vertex;
-      result += '-->';
-      result += Array.from(children).join(' & ');
-      result += '\n';
-    });
-
-    return result;
-  }
-
   dfs(vertex: T, visit: (vertex: T) => boolean | undefined) {
     if (!this.verticies.has(vertex)) return;
 
-    const stack: T[] = [vertex];
+    const stack = [vertex];
     const visited = new Set<T>();
 
     while (stack.length !== 0) {
@@ -100,4 +84,15 @@ export class Graph<T> {
   visitVerticies(fn: (vertex: T) => void) {
     this.verticies.forEach(fn);
   }
+}
+
+export function mermaid<T>(graph: Graph<T>) {
+  let result = '';
+  graph.visitEdges((vertex, children) => {
+    if (children.length === 0) return;
+
+    result += `${vertex}-->${children.join(' & ')}\n`;
+  });
+
+  return result;
 }

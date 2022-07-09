@@ -2,9 +2,8 @@ import {Graph} from './graph';
 
 export function partitionGraph<T>(graph: Graph<T>) {
   const partitions = partition(graph);
-  const graphs = new Array<Graph<T>>();
 
-  partitions.forEach((partition) => {
+  return partitions.map((partition) => {
     const graph = new Graph<T>();
 
     partition.forEach((vertex) => {
@@ -12,10 +11,8 @@ export function partitionGraph<T>(graph: Graph<T>) {
       graph.addEdges(vertex, Array.from(edges));
     });
 
-    graphs.push(graph);
+    return graph;
   });
-
-  return graphs;
 }
 
 /**
@@ -25,7 +22,7 @@ export function partitionGraph<T>(graph: Graph<T>) {
 function partition<T>(graph: Graph<T>) {
   const clusters = new Array<Set<T>>();
 
-  graph.visitEdges((vertex) => {
+  graph.visitVerticies((vertex) => {
     const currentCluster = new Set<T>();
     const clustersToMerge: [Set<T>, number][] = [];
 
