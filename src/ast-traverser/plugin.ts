@@ -1,9 +1,10 @@
 import {PluginItem} from '@babel/core';
 import {
+  FunctionDeclaration,
   Identifier,
   VariableDeclaration,
-  FunctionDeclaration,
 } from '@babel/types';
+
 import {GlobalVarsVisitor} from './globalVarsVisitor';
 import {Graph} from './graph/graph';
 

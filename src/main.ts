@@ -1,7 +1,8 @@
-import * as monaco from 'monaco-editor';
-import {traverse} from './ast-traverser/traverse';
 import * as cytoscape from 'cytoscape';
 import * as dagre from 'cytoscape-dagre';
+import * as monaco from 'monaco-editor';
+
+import {traverse} from './ast-traverser/traverse';
 
 export function main() {
   const editorContainer =
@@ -16,7 +17,7 @@ export function main() {
   function main() {
     console.log("Hello world!");
   }
-  
+
   const post = 10;
   const friends = [];
   `;

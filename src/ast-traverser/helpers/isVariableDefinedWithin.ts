@@ -1,4 +1,5 @@
 import {NodePath} from '@babel/core';
+
 import {isFunctionDeclaration} from '../utils/typeGuards';
 
 /**

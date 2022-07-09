@@ -1,10 +1,10 @@
 import {
   AssignmentExpression,
-  Identifier,
   CallExpression,
   FunctionDeclaration,
-  Node,
+  Identifier,
   MemberExpression,
+  Node,
 } from '@babel/types';
 
 export function isAssignmentExpression(

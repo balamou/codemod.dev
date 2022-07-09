@@ -1,5 +1,6 @@
 import * as babel from '@babel/standalone';
 import * as cytoscape from 'cytoscape';
+
 import {Graph} from './graph/graph';
 import plugin, {SharedObj} from './plugin';
 

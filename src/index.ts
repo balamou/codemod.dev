@@ -1,4 +1,5 @@
 import './index.css';
+
 import {main} from './main';
 
 // @ts-ignore
