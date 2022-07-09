@@ -121,10 +121,13 @@ export class Graph<T> {
 
       // merging
       let merged = clustersToMerge.reduce((prev, current) => {
-        return new Set<T>([...arrify(prev), ...arrify(current[0])]);
+        return new Set<T>([...Array.from(prev), ...Array.from(current[0])]);
       }, new Set<T>());
 
-      merged = new Set<T>([...arrify(merged), ...arrify(currentCluster)]); // add clusterless verticies
+      merged = new Set<T>([
+        ...Array.from(merged),
+        ...Array.from(currentCluster),
+      ]); // add clusterless verticies
 
       // adding
       clusters.push(merged);
@@ -151,6 +154,9 @@ export class Graph<T> {
     return graphs;
   }
 
+  /**
+   * Visits all edges in an unspecified order
+   */
   visitEdges(fn: (vertex: T, children: T[]) => void) {
     this.verticies.forEach((vertex) => {
       const children = this.edges.get(vertex);
@@ -158,8 +164,18 @@ export class Graph<T> {
       fn(vertex, Array.from(children ?? []));
     });
   }
+
+  /**
+   * Visits all verticies in an unspecified order
+   */
+  visitVerticies(fn: (vertex: T) => void) {
+    this.verticies.forEach(fn);
+  }
 }
 
+/**
+ * @return the first element with its index satisfying the condition
+ */
 function findWithIndex<T>(
   array: T[],
   predicate: (item: T) => boolean,
@@ -170,8 +186,4 @@ function findWithIndex<T>(
 
   const index = array.indexOf(element);
   return [element, index];
-}
-
-function arrify<T>(s: Set<T>) {
-  return Array.from(s);
 }
