@@ -48,6 +48,18 @@ describe('Graph', () => {
         expect.arrayContaining(['C', 'B', 'D']),
       );
     });
+
+    it('adds edge to the edge set only once', () => {
+      const graph = new Graph<string>();
+
+      graph.addEdge('A', 'B');
+      graph.addEdge('A', 'B');
+      graph.addEdge('B', 'C');
+
+      expect(getEndPoints(graph, 'A')).toEqual(['B']);
+      expect(getEndPoints(graph, 'B')).toEqual(['C']);
+      expect(getEndPoints(graph, 'C')).toEqual([]);
+    });
   });
 
   describe('addEdges', () => {
