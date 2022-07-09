@@ -26,6 +26,10 @@ module.exports = {
         // https://webpack.js.org/guides/asset-modules/
         use: ['file-loader'],
       },
+      {
+        test: /\.sample\.js$/,
+        type: 'asset/source',
+      },
     ],
   },
   resolve: {
