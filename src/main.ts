@@ -6,7 +6,7 @@ import {
   callGraphToViz,
   codeStatistics,
   mutationGraphToViz,
-} from './ast-traverser/traverse';
+} from './ast-traverser/codeStatistics';
 // @ts-ignore
 import edgecases from './samples/edgecases.sample.js';
 // @ts-ignore
