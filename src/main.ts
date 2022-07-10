@@ -2,7 +2,11 @@ import * as cytoscape from 'cytoscape';
 import * as dagre from 'cytoscape-dagre';
 import * as monaco from 'monaco-editor';
 
-import {traverse} from './ast-traverser/traverse';
+import {
+  callGraphToViz,
+  codeStatistics,
+  mutationGraphToViz,
+} from './ast-traverser/traverse';
 // @ts-ignore
 import edgecases from './samples/edgecases.sample.js';
 // @ts-ignore
@@ -61,10 +65,20 @@ export function main() {
 
   callGraphButton?.addEventListener('click', () => {
     const code = editor.getValue();
+    const stats = codeStatistics(code); // TODO: put into webworker
+    cy.add(callGraphToViz(stats.callGraph));
+    cy.fit();
 
-    // editor.setValue(code.replace(/^\s+/gm, ''));
+    // More dagre options https://github.com/cytoscape/cytoscape.js-dagre
+    cy.layout({name: 'dagre', rankDir: 'TB'} as any).run();
+  });
 
-    traverse(code, cy);
+  variablesGraphBtn?.addEventListener('click', () => {
+    cy.remove('node');
+    const code = editor.getValue();
+    const stats = codeStatistics(code); // TODO: put into webworker
+    cy.add(mutationGraphToViz(stats.mutationGraph));
+    cy.fit();
 
     // More dagre options https://github.com/cytoscape/cytoscape.js-dagre
     cy.layout({name: 'dagre', rankDir: 'TB'} as any).run();

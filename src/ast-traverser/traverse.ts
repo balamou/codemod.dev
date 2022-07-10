@@ -4,11 +4,12 @@ import * as cytoscape from 'cytoscape';
 import {Graph} from './graph/graph';
 import plugin, {SharedObj} from './plugin';
 
-function codeStatistics(code: string) {
+export function codeStatistics(code: string) {
   const sharedObj: SharedObj = {
     globalVars: [],
     topLevelFunctions: [],
     callGraph: new Graph<string>(),
+    mutationGraph: new Graph<string>(),
   };
 
   babel.transform(code, {
@@ -17,29 +18,39 @@ function codeStatistics(code: string) {
     ast: false,
   });
 
-  sharedObj.callGraph.print(); // env
-  return sharedObj.callGraph;
+  return sharedObj;
 }
 
-function callGraphToViz(callGraph: Graph<string>) {
-  const everything: cytoscape.ElementDefinition[] = [];
+export function callGraphToViz(callGraph: Graph<string>) {
+  const cytospace: cytoscape.ElementDefinition[] = [];
 
   callGraph.visitVerticies((vertex) => {
-    everything.push({group: 'nodes', data: {id: vertex}});
+    cytospace.push({group: 'nodes', data: {id: vertex}});
   });
 
   callGraph.visitEachEdge((source, target) => {
-    everything.push({
+    cytospace.push({
       group: 'edges',
       data: {id: `e${source}-${target}`, source, target},
     });
   });
 
-  return everything;
+  return cytospace;
 }
 
-export function traverse(inputCode: string, cy: cytoscape.Core) {
-  const callGraph = codeStatistics(inputCode); // TODO: put into webworker
-  cy.add(callGraphToViz(callGraph));
-  cy.fit();
+export function mutationGraphToViz(mutationGraph: Graph<string>) {
+  const cytospace: cytoscape.ElementDefinition[] = [];
+
+  mutationGraph.visitVerticies((vertex) => {
+    cytospace.push({group: 'nodes', data: {id: vertex}});
+  });
+
+  mutationGraph.visitEachEdge((source, target) => {
+    cytospace.push({
+      group: 'edges',
+      data: {id: `e${source}-${target}`, source, target},
+    });
+  });
+
+  return cytospace;
 }

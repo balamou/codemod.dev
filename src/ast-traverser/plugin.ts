@@ -14,6 +14,7 @@ export interface SharedObj {
   globalVars: string[];
   topLevelFunctions: string[];
   callGraph: Graph<string>;
+  mutationGraph: Graph<string>;
 }
 
 export interface CapturedGlobals {
@@ -68,6 +69,15 @@ export default (sharedObj: SharedObj) => (): PluginItem => {
           functionName,
           functionInformation.functions,
         );
+
+        sharedObj.mutationGraph.addEdges(
+          functionName,
+          functionInformation.write,
+        );
+
+        functionInformation.read.forEach((readVar) => {
+          sharedObj.mutationGraph.addEdge(readVar, functionName);
+        });
 
         // const {
         //   onlyInA: onlyRead,
