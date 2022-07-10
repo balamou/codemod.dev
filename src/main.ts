@@ -4,6 +4,10 @@ import * as monaco from 'monaco-editor';
 
 import {traverse} from './ast-traverser/traverse';
 // @ts-ignore
+import edgecases from './samples/edgecases.sample.js';
+// @ts-ignore
+import havby from './samples/havby.sample.js';
+// @ts-ignore
 import simple from './samples/simple.sample.js';
 
 export function main() {
@@ -16,7 +20,7 @@ export function main() {
   );
 
   const editor = monaco.editor.create(editorContainer, {
-    value: simple,
+    value: havby,
     language: 'typescript',
     theme: 'vs-dark',
   });

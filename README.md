@@ -1,6 +1,17 @@
-## Globals
+## Codemode
 
-- Desc
+www.elasticpanda.com
+
+This project aims to demostrate how global variables can significantly complicate the code. It does this by visually showing which functions read to and from global variables.
+
+This project also shows how to refactor a large vanilla JS front-end client, that a beginner might've written. It aims to clean up the code through various codemods.
+
+### Dependencies
+
+- [monaco-editor](https://microsoft.github.io/monaco-editor/) - VSCode browser editor
+- [@babel/standalone](https://babeljs.io/docs/en/babel-standalone) - Browser JS AST traversal
+- [cytoscape](https://js.cytoscape.org/) - Diagram drawing tool
+- [cytoscape-dagre](https://github.com/cytoscape/cytoscape.js-dagre) - Order Directed graphs hierarchically
 
 ### Issues
 
