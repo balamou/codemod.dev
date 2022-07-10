@@ -14,15 +14,11 @@ export function isPartOfPerformingACall(path: NodePath) {
   let previousPath = path;
 
   path.findParent((path) => {
-    if (isCallExpression(path.node)) {
-      if (path.node.callee === previousPath.node) {
-        isObjectPerformingCall = true;
-        return true; // stop
-      }
-    }
+    isObjectPerformingCall =
+      isCallExpression(path.node) && path.node.callee === previousPath.node;
     previousPath = path;
 
-    return false; // continue
+    return isObjectPerformingCall;
   });
 
   return isObjectPerformingCall;

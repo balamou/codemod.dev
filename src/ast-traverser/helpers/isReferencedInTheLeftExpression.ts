@@ -10,24 +10,20 @@ import {isAssignmentExpression} from '../utils/typeGuards';
  * the `someObject`. We only want reads here:
  *
  * @example
- * var tmp = weWantToKnowIfReferencedHere.cost;
+ * var weWantToKnowIfReferencedHere.abc = something;
  *
- * var orReferencedHere = somthing;
+ * var tmp = notHere.cost;
  */
 export function isReferencedInTheLeftExpression(path: NodePath) {
   let previousPath = path;
   let isObjectReferencedInTheLeft = false;
 
   path.findParent((path) => {
-    if (isAssignmentExpression(path.node)) {
-      if (path.node.left === previousPath.node) {
-        isObjectReferencedInTheLeft = true;
-        return true; // stop
-      }
-    }
+    isObjectReferencedInTheLeft =
+      isAssignmentExpression(path.node) && path.node.left === previousPath.node;
     previousPath = path;
 
-    return false; // continue
+    return isObjectReferencedInTheLeft; // stop if object is referenced in the left
   });
 
   return isObjectReferencedInTheLeft;

@@ -79,13 +79,13 @@ export const GlobalVarsVisitor: ReferencedVisitor<{
       return;
     }
 
-    const isItLocal = isVariableDefinedWithin(
+    const isVarLocal = isVariableDefinedWithin(
       path,
       identifier,
       functionInformation.functionName, // parent function name
     );
 
-    if (!isItLocal) {
+    if (!isVarLocal) {
       functionInformation.read.push(identifier); // global read
     }
   },
