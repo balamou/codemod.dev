@@ -5,6 +5,7 @@ import {
   Identifier,
   MemberExpression,
   Node,
+  VariableDeclaration,
 } from '@babel/types';
 
 export function isAssignmentExpression(
@@ -43,6 +44,14 @@ export function isIdentifier(node: Node): node is Identifier {
 
 export function isMemberExpression(node: Node): node is MemberExpression {
   if (node.type === 'MemberExpression') {
+    return true;
+  }
+
+  return false;
+}
+
+export function isVariableDeclaration(node: Node): node is VariableDeclaration {
+  if (node.type === 'VariableDeclaration') {
     return true;
   }
 

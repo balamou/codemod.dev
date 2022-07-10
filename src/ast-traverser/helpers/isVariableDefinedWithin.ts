@@ -15,27 +15,16 @@ export function isVariableDefinedWithin(
 
   path.findParent((path) => {
     // @ts-ignore
-    const isBound = path.scope.hasOwnBinding(varName, true);
-    console.log(`-- (${varName}) --`, isBound);
-
-    if (isBound) {
-      isDefinedWithinFunction = true;
-      return true; // stop going up
-    }
+    isDefinedWithinFunction = path.scope.hasOwnBinding(varName, true);
 
     // reached the function declaration: STOP HERE
-    if (
+    const reachedFunctionDelcaration =
       isFunctionDeclaration(path.node) &&
-      path.node.id?.name === parentFunctionName // current function name
-    ) {
-      const currentFunctionName = path.node.id.name;
+      path.node.id?.name === parentFunctionName; // current function name
 
-      console.log('⬤ ', currentFunctionName);
-
-      isDefinedWithinFunction = isBound;
-      return true; // stop going up
-    }
-    return false; // continue going up
+    // stop as soon as variabled is bound in the scope
+    // or we reached the function declaration
+    return isDefinedWithinFunction || reachedFunctionDelcaration;
   });
 
   return isDefinedWithinFunction;

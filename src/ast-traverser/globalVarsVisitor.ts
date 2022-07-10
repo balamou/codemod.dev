@@ -29,12 +29,12 @@ function getLeftValName(leftNode: LVal) {
 }
 
 export const GlobalVarsVisitor: ReferencedVisitor<{
-  globalVariables: CapturedGlobals;
+  functionInformation: CapturedGlobals;
 }> = {
   AssignmentExpression(path) {
     const leftNode = path.node.left;
     let varName = getLeftValName(leftNode);
-    const {globalVariables} = this;
+    const {functionInformation} = this;
 
     if (!varName) {
       return;
@@ -44,31 +44,30 @@ export const GlobalVarsVisitor: ReferencedVisitor<{
     const isVariableLocal = isVariableDefinedWithin(
       path,
       varName,
-      globalVariables.functionName, // parent function name
+      functionInformation.functionName, // parent function name
     );
-    console.log(`Is ${varName} global:`, !isVariableLocal, '\n');
 
     // means it is a global variable
     if (!isVariableLocal) {
-      globalVariables.write.push(varName);
+      functionInformation.write.push(varName);
     }
   },
   CallExpression(path) {
     if (isIdentifier(path.node.callee)) {
       const functionName = path.node.callee.name;
 
-      this.globalVariables.functions.push(functionName);
+      this.functionInformation.functions.push(functionName);
     }
   },
   ReferencedIdentifier(path) {
     const identifier = path.node.name;
-    const {globalVariables} = this;
+    const {functionInformation} = this;
 
     // check if identifier is a Top-level function
     // probably used like this `const abc = someTopLevelFunction`
     // or `doSomethingWithCallback(topLevelFunction)`
-    if (globalVariables.topLevelFunctions.has(identifier)) {
-      globalVariables.functions.push(identifier);
+    if (functionInformation.topLevelFunctions.has(identifier)) {
+      functionInformation.functions.push(identifier);
       return;
     }
 
@@ -83,11 +82,11 @@ export const GlobalVarsVisitor: ReferencedVisitor<{
     const isItLocal = isVariableDefinedWithin(
       path,
       identifier,
-      globalVariables.functionName, // parent function name
+      functionInformation.functionName, // parent function name
     );
 
     if (!isItLocal) {
-      globalVariables.read.push(identifier); // global read
+      functionInformation.read.push(identifier); // global read
     }
   },
 };

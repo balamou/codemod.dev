@@ -1,12 +1,12 @@
 import {PluginItem} from '@babel/core';
-import {
-  FunctionDeclaration,
-  Identifier,
-  VariableDeclaration,
-} from '@babel/types';
 
 import {GlobalVarsVisitor} from './globalVarsVisitor';
 import {Graph} from './graph/graph';
+import {
+  isFunctionDeclaration,
+  isIdentifier,
+  isVariableDeclaration,
+} from './utils/typeGuards';
 
 const isDefined = <T>(v: T | null | undefined): v is T => !v;
 
@@ -29,19 +29,13 @@ export default (sharedObj: SharedObj) => (): PluginItem => {
     visitor: {
       Program(path) {
         sharedObj.globalVars = path.node.body
-          .filter(
-            (node): node is VariableDeclaration =>
-              node.type === 'VariableDeclaration',
-          )
+          .filter(isVariableDeclaration)
           .map((node) => node.declarations[0].id)
-          .filter((id): id is Identifier => id.type === 'Identifier')
+          .filter(isIdentifier)
           .map((id) => id.name);
 
         sharedObj.topLevelFunctions = path.node.body
-          .filter(
-            (node): node is FunctionDeclaration =>
-              node.type === 'FunctionDeclaration',
-          )
+          .filter(isFunctionDeclaration)
           .map((node) => (node.id ? node.id.name : null))
           .filter(isDefined);
       },
@@ -60,7 +54,7 @@ export default (sharedObj: SharedObj) => (): PluginItem => {
           return;
         }
 
-        const globalVariables: CapturedGlobals = {
+        const functionInformation: CapturedGlobals = {
           read: [], // global vars written to
           write: [], // global vars read from
           functions: [], // function calls
@@ -68,9 +62,12 @@ export default (sharedObj: SharedObj) => (): PluginItem => {
           topLevelFunctions: new Set(sharedObj.topLevelFunctions),
         };
 
-        path.traverse(GlobalVarsVisitor, {globalVariables});
+        path.traverse(GlobalVarsVisitor, {functionInformation});
 
-        sharedObj.callGraph.addEdges(functionName, globalVariables.functions);
+        sharedObj.callGraph.addEdges(
+          functionName,
+          functionInformation.functions,
+        );
 
         // const {
         //   onlyInA: onlyRead,
