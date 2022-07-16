@@ -8,12 +8,7 @@ import {
   mutationGraphToViz,
 } from './ast-traverser/codeStatistics';
 import {partitionGraph} from './ast-traverser/graph/partitionGraph';
-// @ts-ignore
-import edgecases from './samples/edgecases.sample.js';
-// @ts-ignore
-import havby from './samples/havby.sample.js';
-// @ts-ignore
-import simple from './samples/simple.sample.js';
+import {edgecases, havby, simple} from './samples';
 
 export function main() {
   const editorContainer =
@@ -30,7 +25,9 @@ export function main() {
     theme: 'vs-dark',
   });
 
-  // editor.layout();
+  window.addEventListener('resize', () => {
+    editor.layout();
+  });
 
   const cytoscapeOptions = {
     style: [
