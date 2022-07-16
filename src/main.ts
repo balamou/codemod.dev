@@ -87,4 +87,23 @@ export function main() {
     // More dagre options https://github.com/cytoscape/cytoscape.js-dagre
     cy.layout({name: 'dagre', rankDir: 'TB'} as any).run();
   });
+
+  const selectElement =
+    document.querySelector<HTMLSelectElement>('#code-samples');
+
+  selectElement?.addEventListener('change', (event) => {
+    const target = event.target as HTMLSelectElement;
+
+    switch (target.value) {
+      case 'simple':
+        editor.setValue(simple);
+        break;
+      case 'edgecases':
+        editor.setValue(edgecases);
+        break;
+      case 'havby':
+        editor.setValue(havby);
+        break;
+    }
+  });
 }
