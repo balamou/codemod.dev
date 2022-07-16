@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+/** @type {import('webpack').Configuration} */
 module.exports = {
   entry: {
     index: './src/index.ts',
