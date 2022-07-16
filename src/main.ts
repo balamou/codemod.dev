@@ -17,7 +17,7 @@ import simple from './samples/simple.sample.js';
 
 export function main() {
   const editorContainer =
-    document.querySelector<HTMLElement>('.monaco-editor')!;
+    document.querySelector<HTMLElement>('#monaco-editor')!;
   const callGraphButton =
     document.querySelector<HTMLElement>('#call-graph-btn');
   const variablesGraphBtn = document.querySelector<HTMLElement>(
@@ -29,6 +29,8 @@ export function main() {
     language: 'typescript',
     theme: 'vs-dark',
   });
+
+  // editor.layout();
 
   const cytoscapeOptions = {
     style: [
@@ -60,7 +62,7 @@ export function main() {
   cytoscape.use(dagre);
 
   const cy = cytoscape({
-    container: document.querySelector<HTMLDivElement>('.graph'), // container to render in
+    container: document.querySelector<HTMLDivElement>('#graph'), // container to render in
     ...cytoscapeOptions,
   });
 

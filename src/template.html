@@ -5,16 +5,24 @@
     <title>Globals</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
-  <body>
-    <main>
-      <nav class="command-panel">
-        <button id="call-graph-btn">Call graph</button>
-        <button id="variables-graph-btn">Global variables graph</button>
-      </nav>
-      <div class="wrapper">
-        <div class="monaco-editor"></div>
-        <div class="graph"></div>
-      </div>
+  <body class="text-white">
+    <nav class="bg-zinc-800 p-2 text-sm gap-3 flex w-full">
+      <button
+        id="call-graph-btn"
+        class="bg-zinc-700 px-5 py-2 rounded-md hover:bg-zinc-600"
+      >
+        Call graph
+      </button>
+      <button
+        id="variables-graph-btn"
+        class="bg-zinc-700 px-5 py-2 rounded-md hover:bg-zinc-600"
+      >
+        Global variables graph
+      </button>
+    </nav>
+    <main class="sm:flex h-screen bg-red-400">
+      <div class="h-[50vh] sm:w-1/2 sm:h-full" id="monaco-editor"></div>
+      <div class="h-[50vh] sm:w-1/2 sm:h-full" id="graph"></div>
     </main>
   </body>
 </html>
