@@ -39,7 +39,6 @@ export const GlobalVarsVisitor: ReferencedVisitor<{
     if (!varName) {
       return;
     }
-    console.log(varName);
 
     const isVariableLocal = isVariableDefinedWithin(
       path,
