@@ -92,4 +92,14 @@ export class Graph<T> {
       children?.forEach((target) => fn(vertex, target));
     });
   };
+
+  findChildren(vertex: T) {
+    const children = this.edges.get(vertex);
+
+    if (children) {
+      return Array.from(children);
+    }
+
+    return [];
+  }
 }

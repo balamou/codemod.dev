@@ -7,6 +7,7 @@ import {
   codeStatistics,
   mutationGraphToViz,
 } from './ast-traverser/codeStatistics';
+import {partitionGraph} from './ast-traverser/graph/partitionGraph';
 // @ts-ignore
 import edgecases from './samples/edgecases.sample.js';
 // @ts-ignore
@@ -73,11 +74,15 @@ export function main() {
     cy.layout({name: 'dagre', rankDir: 'TB'} as any).run();
   });
 
+  let current = 0;
   variablesGraphBtn?.addEventListener('click', () => {
     cy.remove('node');
     const code = editor.getValue();
     const stats = codeStatistics(code); // TODO: put into webworker
-    cy.add(mutationGraphToViz(stats.mutationGraph));
+    const graphs = partitionGraph(stats.mutationGraph);
+    cy.add(mutationGraphToViz(graphs[current]));
+    current = (current + 1) % graphs.length;
+
     cy.fit();
 
     // More dagre options https://github.com/cytoscape/cytoscape.js-dagre

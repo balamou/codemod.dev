@@ -4,14 +4,14 @@ export function partitionGraph<T>(graph: Graph<T>) {
   const partitions = partition(graph);
 
   return partitions.map((partition) => {
-    const graph = new Graph<T>();
+    const newGraph = new Graph<T>();
 
     partition.forEach((vertex) => {
-      const edges = graph['edges'].get(vertex)!; // TODO: hack, fix this
-      graph.addEdges(vertex, Array.from(edges));
+      const children = graph.findChildren(vertex);
+      newGraph.addEdges(vertex, children);
     });
 
-    return graph;
+    return newGraph;
   });
 }
 
