@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body class="text-white">
-    <nav class="bg-zinc-800 p-2 text-sm gap-3 flex w-full">
+    <nav class="flex w-full gap-3 p-2 text-sm bg-zinc-800">
       <button
         id="call-graph-btn"
-        class="bg-zinc-700 px-5 py-2 rounded-md hover:bg-zinc-600"
+        class="px-5 py-2 rounded-md bg-zinc-700 hover:bg-zinc-600"
       >
         Call graph
       </button>
       <button
         id="variables-graph-btn"
-        class="bg-zinc-700 px-5 py-2 rounded-md hover:bg-zinc-600"
+        class="px-5 py-2 rounded-md bg-zinc-700 hover:bg-zinc-600"
       >
         Global variables graph
       </button>
@@ -23,7 +23,7 @@
       <label for="code-samples" class="hidden">Select a code sample</label>
       <select
         id="code-samples"
-        class="bg-gray-50 border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 px-2"
+        class="block px-2 text-sm text-gray-900 border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       >
         <option selected>Select code sample</option>
         <option value="simple">simple</option>
@@ -31,7 +31,7 @@
         <option value="havby">havby</option>
       </select>
     </nav>
-    <main class="sm:flex h-screen">
+    <main class="h-screen sm:flex">
       <div class="h-[50vh] sm:w-1/2 sm:h-full" id="monaco-editor"></div>
       <div class="h-[50vh] sm:w-1/2 sm:h-full" id="graph"></div>
     </main>
