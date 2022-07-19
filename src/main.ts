@@ -63,10 +63,15 @@ export function main() {
     ...cytoscapeOptions,
   });
 
+  let currentCall = 0;
   callGraphButton?.addEventListener('click', () => {
+    cy.remove('node');
     const code = editor.getValue();
     const stats = codeStatistics(code); // TODO: put into webworker
-    cy.add(callGraphToViz(stats.callGraph));
+    const graphs = partitionGraph(stats.callGraph);
+    cy.add(callGraphToViz(graphs[currentCall]));
+    currentCall = (currentCall + 1) % graphs.length;
+
     cy.fit();
 
     // More dagre options https://github.com/cytoscape/cytoscape.js-dagre

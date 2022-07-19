@@ -1,7 +1,7 @@
 import {Graph} from './graph';
 
 export function partitionGraph<T>(graph: Graph<T>) {
-  const partitions = partition(graph);
+  const partitions = partition(graph).sort((a, b) => b.size - a.size);
 
   return partitions.map((partition) => {
     const newGraph = new Graph<T>();
