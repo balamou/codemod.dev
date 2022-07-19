@@ -1,7 +1,7 @@
 import {PluginItem} from '@babel/core';
 
 import {Graph} from './graph/graph';
-import {CapturedGlobals, GlobalVarsVisitor} from './singleFunctionVisitor';
+import {CapturedGlobals, singleFunctionVisitor} from './singleFunctionVisitor';
 import {
   isFunctionDeclaration,
   isIdentifier,
@@ -55,7 +55,7 @@ export const functionsVisitor = (sharedObj: SharedObj) => (): PluginItem => {
           topLevelFunctions: new Set(sharedObj.topLevelFunctions),
         };
 
-        path.traverse(GlobalVarsVisitor, {functionInformation});
+        path.traverse(singleFunctionVisitor, {functionInformation});
 
         sharedObj.callGraph.addEdges(
           functionName,

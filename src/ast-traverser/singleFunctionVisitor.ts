@@ -33,7 +33,7 @@ export interface CapturedGlobals {
   topLevelFunctions: Set<string>;
 }
 
-export const GlobalVarsVisitor: ReferencedVisitor<{
+export const singleFunctionVisitor: ReferencedVisitor<{
   functionInformation: CapturedGlobals;
 }> = {
   AssignmentExpression(path) {
