@@ -19,9 +19,7 @@ function getLeftValName(leftNode: LVal) {
   }
 
   if (isMemberExpression(leftNode)) {
-    // varName = leftNode.object.name; // doesn't work as 'name' can be nested
-
-    return findLeftMostName(leftNode)!;
+    return findLeftMostName(leftNode);
   }
 
   return;
@@ -30,7 +28,7 @@ function getLeftValName(leftNode: LVal) {
 export interface CapturedGlobals {
   read: string[];
   write: string[];
-  functions: string[];
+  functions: string[]; // functions called
   functionName: string;
   topLevelFunctions: Set<string>;
 }
@@ -40,7 +38,7 @@ export const GlobalVarsVisitor: ReferencedVisitor<{
 }> = {
   AssignmentExpression(path) {
     const leftNode = path.node.left;
-    let varName = getLeftValName(leftNode);
+    const varName = getLeftValName(leftNode);
     const {functionInformation} = this;
 
     if (!varName) {

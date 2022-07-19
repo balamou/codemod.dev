@@ -17,7 +17,7 @@ export interface SharedObj {
   mutationGraph: Graph<string>;
 }
 
-export default (sharedObj: SharedObj) => (): PluginItem => {
+export const plugin = (sharedObj: SharedObj) => (): PluginItem => {
   return {
     visitor: {
       Program(path) {
