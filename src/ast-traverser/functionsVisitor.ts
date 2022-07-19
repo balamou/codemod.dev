@@ -8,7 +8,7 @@ import {
   isVariableDeclaration,
 } from './utils/typeGuards';
 
-const isDefined = <T>(v: T | null | undefined): v is T => !v;
+const isDefined = <T>(v: T | null | undefined): v is T => v != null;
 
 export interface SharedObj {
   globalVars: string[];
@@ -29,7 +29,7 @@ export const functionsVisitor = (sharedObj: SharedObj) => (): PluginItem => {
 
         sharedObj.topLevelFunctions = path.node.body
           .filter(isFunctionDeclaration)
-          .map((node) => (node.id ? node.id.name : null))
+          .map((node) => node?.id?.name)
           .filter(isDefined);
       },
       FunctionDeclaration(path) {
@@ -59,7 +59,10 @@ export const functionsVisitor = (sharedObj: SharedObj) => (): PluginItem => {
 
         sharedObj.callGraph.addEdges(
           functionName,
-          functionInformation.functions,
+          intersection(
+            functionInformation.functions,
+            sharedObj.topLevelFunctions,
+          ),
         );
 
         sharedObj.mutationGraph.addEdges(
@@ -88,3 +91,11 @@ export const functionsVisitor = (sharedObj: SharedObj) => (): PluginItem => {
     },
   };
 };
+
+function difference<T>(arrayA: Array<T>, arrayB: Array<T>) {
+  return arrayA.filter((item) => !arrayB.includes(item));
+}
+
+function intersection<T>(arrayA: Array<T>, arrayB: Array<T>) {
+  return arrayA.filter((item) => arrayB.includes(item));
+}
