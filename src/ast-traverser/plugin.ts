@@ -1,6 +1,6 @@
 import {PluginItem} from '@babel/core';
 
-import {GlobalVarsVisitor} from './globalVarsVisitor';
+import {CapturedGlobals, GlobalVarsVisitor} from './globalVarsVisitor';
 import {Graph} from './graph/graph';
 import {
   isFunctionDeclaration,
@@ -15,14 +15,6 @@ export interface SharedObj {
   topLevelFunctions: string[];
   callGraph: Graph<string>;
   mutationGraph: Graph<string>;
-}
-
-export interface CapturedGlobals {
-  read: string[];
-  write: string[];
-  functions: string[];
-  functionName: string;
-  topLevelFunctions: Set<string>;
 }
 
 export default (sharedObj: SharedObj) => (): PluginItem => {

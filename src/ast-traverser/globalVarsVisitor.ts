@@ -7,7 +7,6 @@ import {
   isReferencedInTheLeftExpression,
   isVariableDefinedWithin,
 } from './helpers';
-import {CapturedGlobals} from './plugin';
 import {isIdentifier, isMemberExpression} from './utils/typeGuards';
 
 type ReferencedVisitor<T> = Visitor<T> & {
@@ -26,6 +25,14 @@ function getLeftValName(leftNode: LVal) {
   }
 
   return;
+}
+
+export interface CapturedGlobals {
+  read: string[];
+  write: string[];
+  functions: string[];
+  functionName: string;
+  topLevelFunctions: Set<string>;
 }
 
 export const GlobalVarsVisitor: ReferencedVisitor<{
