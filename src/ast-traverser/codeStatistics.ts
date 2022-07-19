@@ -1,7 +1,7 @@
 import * as babel from '@babel/standalone';
 import * as cytoscape from 'cytoscape';
 
-import {plugin, SharedObj} from './functionsVisitor';
+import {functionsVisitor, SharedObj} from './functionsVisitor';
 import {Graph} from './graph/graph';
 
 export function codeStatistics(code: string) {
@@ -13,7 +13,7 @@ export function codeStatistics(code: string) {
   };
 
   babel.transform(code, {
-    plugins: [plugin(sharedObj)],
+    plugins: [functionsVisitor(sharedObj)],
     code: true,
     ast: false,
   });

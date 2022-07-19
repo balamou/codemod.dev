@@ -1,7 +1,7 @@
 import {PluginItem} from '@babel/core';
 
-import {CapturedGlobals, GlobalVarsVisitor} from './globalVarsVisitor';
 import {Graph} from './graph/graph';
+import {CapturedGlobals, GlobalVarsVisitor} from './singleFunctionVisitor';
 import {
   isFunctionDeclaration,
   isIdentifier,
@@ -17,7 +17,7 @@ export interface SharedObj {
   mutationGraph: Graph<string>;
 }
 
-export const plugin = (sharedObj: SharedObj) => (): PluginItem => {
+export const functionsVisitor = (sharedObj: SharedObj) => (): PluginItem => {
   return {
     visitor: {
       Program(path) {
