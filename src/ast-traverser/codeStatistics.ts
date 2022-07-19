@@ -1,8 +1,8 @@
 import * as babel from '@babel/standalone';
 import * as cytoscape from 'cytoscape';
 
+import {plugin, SharedObj} from './functionsVisitor';
 import {Graph} from './graph/graph';
-import {plugin, SharedObj} from './plugin';
 
 export function codeStatistics(code: string) {
   const sharedObj: SharedObj = {
