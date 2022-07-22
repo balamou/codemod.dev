@@ -96,10 +96,10 @@ export class Graph<T> {
   findChildren(vertex: T) {
     const children = this.edges.get(vertex);
 
-    if (children) {
-      return Array.from(children);
+    if (!children) {
+      return [];
     }
 
-    return [];
+    return Array.from(children);
   }
 }
