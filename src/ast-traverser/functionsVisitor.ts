@@ -66,8 +66,10 @@ export const functionsVisitor = (sharedObj: SharedObj) => (): PluginItem => {
         );
 
         sharedObj.mutationGraph.addEdges(
-          functionName,
-          intersection(functionInformation.write, sharedObj.globalVars),
+          JSON.stringify({type: 'function', value: functionName}),
+          intersection(functionInformation.write, sharedObj.globalVars).map(
+            (value) => JSON.stringify({type: 'variable', value}),
+          ),
         );
 
         const readVars = intersection(
@@ -75,7 +77,10 @@ export const functionsVisitor = (sharedObj: SharedObj) => (): PluginItem => {
           sharedObj.globalVars,
         );
         readVars.forEach((readVar) => {
-          sharedObj.mutationGraph.addEdge(readVar, functionName);
+          sharedObj.mutationGraph.addEdge(
+            JSON.stringify({type: 'variable', value: readVar}),
+            JSON.stringify({type: 'function', value: functionName}),
+          );
         });
 
         // const {

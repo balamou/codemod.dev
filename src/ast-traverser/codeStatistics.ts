@@ -4,6 +4,8 @@ import * as cytoscape from 'cytoscape';
 import {functionsVisitor, SharedObj} from './functionsVisitor';
 import {Graph} from './graph/graph';
 
+type Node = {type: 'function' | 'variable'; value: string};
+
 export function codeStatistics(code: string) {
   const sharedObj: SharedObj = {
     globalVars: [],
@@ -31,7 +33,7 @@ export function callGraphToViz(callGraph: Graph<string>) {
   callGraph.visitEachEdge((source, target) => {
     cytospace.push({
       group: 'edges',
-      data: {id: `e${source}-${target}`, source, target},
+      data: {id: `e${source}-${target}`, source, target, color: 'red'},
     });
   });
 
@@ -41,16 +43,33 @@ export function callGraphToViz(callGraph: Graph<string>) {
 export function mutationGraphToViz(mutationGraph: Graph<string>) {
   const cytospace: cytoscape.ElementDefinition[] = [];
 
-  mutationGraph.visitVerticies((vertex) => {
-    cytospace.push({group: 'nodes', data: {id: vertex}});
+  mutationGraph.visitVerticies((jsonVertex) => {
+    const vertex = decode(jsonVertex);
+
+    cytospace.push({
+      group: 'nodes',
+      data: {id: vertex.value},
+      classes: vertex.type,
+    });
   });
 
-  mutationGraph.visitEachEdge((source, target) => {
+  mutationGraph.visitEachEdge((jsonSource, jsonTarget) => {
+    const source = decode(jsonSource);
+    const target = decode(jsonTarget);
+
     cytospace.push({
       group: 'edges',
-      data: {id: `e${source}-${target}`, source, target},
+      data: {
+        id: `e${source.value}-${target.value}`,
+        source: source.value,
+        target: target.value,
+      },
     });
   });
 
   return cytospace;
+}
+
+function decode(value: string) {
+  return JSON.parse(value) as Node;
 }

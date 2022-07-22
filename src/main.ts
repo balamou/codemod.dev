@@ -29,7 +29,7 @@ export function main() {
     editor.layout();
   });
 
-  const cytoscapeOptions = {
+  const cytoscapeOptions: cytoscape.CytoscapeOptions = {
     style: [
       // the stylesheet for the graph
       {
@@ -39,7 +39,12 @@ export function main() {
           label: 'data(id)',
         },
       },
-
+      {
+        selector: '.function',
+        style: {
+          'background-color': '#d6443a',
+        },
+      },
       {
         selector: 'edge',
         style: {
