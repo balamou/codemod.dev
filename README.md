@@ -1,6 +1,6 @@
-## Codemode
+## Codemod
 
-www.elasticpanda.com
+[codemod.dev](https://codemod.dev/)
 
 This project aims to demostrate how global variables can significantly complicate the code. It does this by visually showing which functions read to and from global variables.
 
