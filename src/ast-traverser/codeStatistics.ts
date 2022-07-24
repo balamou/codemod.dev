@@ -3,11 +3,7 @@ import * as cytoscape from 'cytoscape';
 
 import {functionsVisitor, SharedObj} from './functionsVisitor';
 import {Graph} from './graph/graph';
-
-interface Node {
-  type: 'function' | 'variable';
-  value: string;
-}
+import {decodeNode} from './utils/node';
 
 export function codeStatistics(code: string) {
   const sharedObj: SharedObj = {
@@ -47,7 +43,7 @@ export function mutationGraphToViz(mutationGraph: Graph<string>) {
   const cytospace: cytoscape.ElementDefinition[] = [];
 
   mutationGraph.visitVerticies((jsonVertex) => {
-    const vertex = decode(jsonVertex);
+    const vertex = decodeNode(jsonVertex);
 
     cytospace.push({
       group: 'nodes',
@@ -57,8 +53,8 @@ export function mutationGraphToViz(mutationGraph: Graph<string>) {
   });
 
   mutationGraph.visitEachEdge((jsonSource, jsonTarget) => {
-    const source = decode(jsonSource);
-    const target = decode(jsonTarget);
+    const source = decodeNode(jsonSource);
+    const target = decodeNode(jsonTarget);
 
     cytospace.push({
       group: 'edges',
@@ -71,8 +67,4 @@ export function mutationGraphToViz(mutationGraph: Graph<string>) {
   });
 
   return cytospace;
-}
-
-function decode(value: string) {
-  return JSON.parse(value) as Node;
 }

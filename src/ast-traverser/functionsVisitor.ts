@@ -2,6 +2,7 @@ import {PluginItem} from '@babel/core';
 
 import {Graph} from './graph/graph';
 import {CapturedGlobals, singleFunctionVisitor} from './singleFunctionVisitor';
+import {encodeNode} from './utils/node';
 import {
   isFunctionDeclaration,
   isIdentifier,
@@ -66,9 +67,9 @@ export const functionsVisitor = (sharedObj: SharedObj) => (): PluginItem => {
         );
 
         sharedObj.mutationGraph.addEdges(
-          JSON.stringify({type: 'function', value: functionName}),
+          encodeNode({type: 'function', value: functionName}),
           intersection(functionInformation.write, sharedObj.globalVars).map(
-            (value) => JSON.stringify({type: 'variable', value}),
+            (value) => encodeNode({type: 'variable', value}),
           ),
         );
 
@@ -78,24 +79,10 @@ export const functionsVisitor = (sharedObj: SharedObj) => (): PluginItem => {
         );
         readVars.forEach((readVar) => {
           sharedObj.mutationGraph.addEdge(
-            JSON.stringify({type: 'variable', value: readVar}),
-            JSON.stringify({type: 'function', value: functionName}),
+            encodeNode({type: 'variable', value: readVar}),
+            encodeNode({type: 'function', value: functionName}),
           );
         });
-
-        // const {
-        //   onlyInA: onlyRead,
-        //   onlyInB: onlyWritten,
-        //   inBoth: readWrite,
-        // } = setOperations(globalVariables.read, globalVariables.write);
-
-        // edges.push({
-        //   funcName: functionName,
-        //   to: globalVariables.functions,
-        //   read: onlyRead,
-        //   write: onlyWritten,
-        //   readWrite: readWrite,
-        // });
       },
     },
   };
