@@ -4,7 +4,10 @@ import * as cytoscape from 'cytoscape';
 import {functionsVisitor, SharedObj} from './functionsVisitor';
 import {Graph} from './graph/graph';
 
-type Node = {type: 'function' | 'variable'; value: string};
+interface Node {
+  type: 'function' | 'variable';
+  value: string;
+}
 
 export function codeStatistics(code: string) {
   const sharedObj: SharedObj = {
