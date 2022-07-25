@@ -8,7 +8,7 @@ import {
   mutationGraphToViz,
 } from './ast-traverser/codeStatistics';
 import {partitionGraph} from './ast-traverser/graph/partitionGraph';
-import {edgecases, havby, postings, simple} from './samples';
+import {edgecases, havby, postings, simple, view} from './samples';
 
 export function main() {
   const editorContainer =
@@ -106,6 +106,7 @@ const valueCodeMap = {
   edgecases,
   havby,
   postings,
+  view,
 };
 
 function setupDropdownSamples(editor: monaco.editor.IStandaloneCodeEditor) {
