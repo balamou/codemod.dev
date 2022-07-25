@@ -99,6 +99,7 @@ export function main() {
   });
 
   setupDropdownSamples(editor);
+  setupResize();
 }
 
 const valueCodeMap = {
@@ -127,5 +128,39 @@ function setupDropdownSamples(editor: monaco.editor.IStandaloneCodeEditor) {
 
     const code = valueCodeMap[key];
     editor.setValue(code);
+  });
+}
+
+const RESIZE_PADDING_PX = 300;
+
+function setupResize() {
+  const resizeArea = document.getElementById('resize-area')!;
+  const resizeHighlight = document.getElementById('resize-highlight')!;
+
+  let didClick = false;
+
+  resizeArea.addEventListener('mousedown', () => {
+    didClick = true;
+  });
+
+  document.body.addEventListener('mouseup', () => {
+    didClick = false;
+  });
+
+  document.body.addEventListener('mousemove', (event) => {
+    if (!didClick) {
+      return;
+    }
+
+    const width = document.body.clientWidth;
+    const leftPosition = Math.min(
+      Math.max(event.x, RESIZE_PADDING_PX),
+      width - RESIZE_PADDING_PX,
+    );
+
+    resizeArea.classList.remove('left-1/2');
+    resizeArea.style.left = `${leftPosition}px`;
+    resizeHighlight.classList.remove('left-1/2');
+    resizeHighlight.style.left = `${leftPosition}px`;
   });
 }
