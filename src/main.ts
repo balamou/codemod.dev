@@ -99,7 +99,7 @@ export function main() {
   });
 
   setupDropdownSamples(editor);
-  setupResize();
+  setupResize(editor);
 }
 
 const valueCodeMap = {
@@ -133,9 +133,11 @@ function setupDropdownSamples(editor: monaco.editor.IStandaloneCodeEditor) {
 
 const RESIZE_PADDING_PX = 300;
 
-function setupResize() {
+function setupResize(editor: monaco.editor.IStandaloneCodeEditor) {
   const resizeArea = document.getElementById('resize-area')!;
   const resizeHighlight = document.getElementById('resize-highlight')!;
+  const editorContainer = document.getElementById('monaco-editor')!;
+  const graphContainer = document.getElementById('graph')!;
 
   let didClick = false;
 
@@ -157,10 +159,18 @@ function setupResize() {
       Math.max(event.x, RESIZE_PADDING_PX),
       width - RESIZE_PADDING_PX,
     );
+    const percent = Math.round((leftPosition / width) * 1000) / 10;
 
     resizeArea.classList.remove('left-1/2');
-    resizeArea.style.left = `${leftPosition}px`;
+    resizeArea.style.left = `${percent}%`;
     resizeHighlight.classList.remove('left-1/2');
-    resizeHighlight.style.left = `${leftPosition}px`;
+    resizeHighlight.style.left = `${percent}%`;
+
+    editorContainer.classList.remove('sm:w-1/2');
+    editorContainer.style.width = `${percent}%`;
+    graphContainer.style.width = `${100 - percent}%`;
+
+    editor.layout();
+    editor.layoutContentWidget;
   });
 }
