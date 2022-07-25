@@ -98,25 +98,29 @@ export function main() {
     cy.layout({name: 'dagre', rankDir: 'TB'} as any).run();
   });
 
-  const selectElement =
-    document.querySelector<HTMLSelectElement>('#code-samples');
+  setupDropdownSamples(editor);
+}
 
-  const valueCodeMap = {
-    simple,
-    edgecases,
-    havby,
-    postings,
-  };
+const valueCodeMap = {
+  simple,
+  edgecases,
+  havby,
+  postings,
+};
+
+function setupDropdownSamples(editor: monaco.editor.IStandaloneCodeEditor) {
+  const selectElement =
+    document.querySelector<HTMLSelectElement>('#code-samples')!;
 
   Object.keys(valueCodeMap).map((key) => {
     const option = document.createElement('option');
     option.setAttribute('value', key);
     option.appendChild(document.createTextNode(key));
 
-    selectElement?.appendChild(option);
+    selectElement.appendChild(option);
   });
 
-  selectElement?.addEventListener('change', (event) => {
+  selectElement.addEventListener('change', (event) => {
     const target = event.target as HTMLSelectElement;
     const key = target.value as keyof typeof valueCodeMap;
 
