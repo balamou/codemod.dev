@@ -101,22 +101,26 @@ export function main() {
   const selectElement =
     document.querySelector<HTMLSelectElement>('#code-samples');
 
+  const valueCodeMap = {
+    simple,
+    edgecases,
+    havby,
+    postings,
+  };
+
+  Object.keys(valueCodeMap).map((key) => {
+    const option = document.createElement('option');
+    option.setAttribute('value', key);
+    option.appendChild(document.createTextNode(key));
+
+    selectElement?.appendChild(option);
+  });
+
   selectElement?.addEventListener('change', (event) => {
     const target = event.target as HTMLSelectElement;
+    const key = target.value as keyof typeof valueCodeMap;
 
-    switch (target.value) {
-      case 'simple':
-        editor.setValue(simple);
-        break;
-      case 'edgecases':
-        editor.setValue(edgecases);
-        break;
-      case 'havby':
-        editor.setValue(havby);
-        break;
-      case 'postings':
-        editor.setValue(postings);
-        break;
-    }
+    const code = valueCodeMap[key];
+    editor.setValue(code);
   });
 }
