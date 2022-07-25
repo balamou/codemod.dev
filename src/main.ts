@@ -11,13 +11,9 @@ import {partitionGraph} from './ast-traverser/graph/partitionGraph';
 import {edgecases, havby, postings, simple, view} from './samples';
 
 export function main() {
-  const editorContainer =
-    document.querySelector<HTMLElement>('#monaco-editor')!;
-  const callGraphButton =
-    document.querySelector<HTMLElement>('#call-graph-btn');
-  const variablesGraphBtn = document.querySelector<HTMLElement>(
-    '#variables-graph-btn',
-  );
+  const editorContainer = document.getElementById('monaco-editor')!;
+  const callGraphButton = document.getElementById('call-graph-btn');
+  const variablesGraphBtn = document.getElementById('variables-graph-btn');
 
   const editor = monaco.editor.create(editorContainer, {
     value: havby,
@@ -64,7 +60,7 @@ export function main() {
   cytoscape.use(dagre);
 
   const cy = cytoscape({
-    container: document.querySelector<HTMLDivElement>('#graph'), // container to render in
+    container: document.getElementById('graph'), // container to render in
     ...cytoscapeOptions,
   });
 
@@ -111,8 +107,7 @@ const valueCodeMap = {
 };
 
 function setupDropdownSamples(editor: monaco.editor.IStandaloneCodeEditor) {
-  const selectElement =
-    document.querySelector<HTMLSelectElement>('#code-samples')!;
+  const selectElement = document.getElementById('code-samples')!;
 
   Object.keys(valueCodeMap).map((key) => {
     const option = document.createElement('option');
