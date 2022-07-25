@@ -140,6 +140,22 @@ function setupResize(editor: monaco.editor.IStandaloneCodeEditor) {
   const graphContainer = document.getElementById('graph')!;
 
   let didClick = false;
+  let timer: any = undefined;
+
+  resizeArea.addEventListener('mouseover', () => {
+    timer = setTimeout(() => {
+      resizeHighlight.classList.add('bg-blue-500');
+    }, 200);
+  });
+
+  resizeArea.addEventListener('mouseleave', () => {
+    if (didClick) {
+      return;
+    }
+
+    resizeHighlight.classList.remove('bg-blue-500');
+    clearTimeout(timer);
+  });
 
   resizeArea.addEventListener('mousedown', () => {
     didClick = true;
