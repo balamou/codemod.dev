@@ -8,7 +8,7 @@ import {
   mutationGraphToViz,
 } from './ast-traverser/codeStatistics';
 import {partitionGraph} from './ast-traverser/graph/partitionGraph';
-import {edgecases, havby, simple} from './samples';
+import {edgecases, havby, postings, simple} from './samples';
 
 export function main() {
   const editorContainer =
@@ -113,6 +113,9 @@ export function main() {
         break;
       case 'havby':
         editor.setValue(havby);
+        break;
+      case 'postings':
+        editor.setValue(postings);
         break;
     }
   });
