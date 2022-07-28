@@ -12,8 +12,10 @@ import {edgecases, havby, postings, simple, view} from './samples';
 
 export function main() {
   const editorContainer = document.getElementById('monaco-editor')!;
-  const callGraphButton = document.getElementById('call-graph-btn');
-  const variablesGraphBtn = document.getElementById('variables-graph-btn');
+  const graphContainer = document.getElementById('graph')!;
+
+  const callGraphButton = document.getElementById('call-graph-btn')!;
+  const variablesGraphBtn = document.getElementById('variables-graph-btn')!;
 
   const editor = monaco.editor.create(editorContainer, {
     value: havby,
@@ -60,12 +62,12 @@ export function main() {
   cytoscape.use(dagre);
 
   const cy = cytoscape({
-    container: document.getElementById('graph'), // container to render in
+    container: graphContainer, // container to render in
     ...cytoscapeOptions,
   });
 
   let currentCall = 0;
-  callGraphButton?.addEventListener('click', () => {
+  callGraphButton.addEventListener('click', () => {
     cy.remove('node');
     const code = editor.getValue();
     const stats = codeStatistics(code); // TODO: put into webworker
@@ -80,7 +82,7 @@ export function main() {
   });
 
   let current = 0;
-  variablesGraphBtn?.addEventListener('click', () => {
+  variablesGraphBtn.addEventListener('click', () => {
     cy.remove('node');
     const code = editor.getValue();
     const stats = codeStatistics(code); // TODO: put into webworker
@@ -138,8 +140,13 @@ function setupResize(editor: monaco.editor.IStandaloneCodeEditor) {
   let timer: any = undefined;
 
   resizeArea.addEventListener('mouseover', () => {
+    if (timer) {
+      return;
+    }
+
     timer = setTimeout(() => {
       resizeHighlight.classList.add('bg-blue-500');
+      timer = undefined;
     }, 200);
   });
 
@@ -147,9 +154,9 @@ function setupResize(editor: monaco.editor.IStandaloneCodeEditor) {
     if (didClick) {
       return;
     }
-
     resizeHighlight.classList.remove('bg-blue-500');
     clearTimeout(timer);
+    timer = undefined;
   });
 
   resizeArea.addEventListener('mousedown', () => {
