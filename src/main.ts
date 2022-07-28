@@ -1,5 +1,7 @@
 import * as cytoscape from 'cytoscape';
 import * as dagre from 'cytoscape-dagre';
+// @ts-ignore
+import klay from 'cytoscape-klay';
 import * as monaco from 'monaco-editor';
 
 import {
@@ -10,6 +12,7 @@ import {
 import {partitionGraph} from './ast-traverser/graph/partitionGraph';
 import {edgecases, havby, postings, simple, view} from './samples';
 
+cytoscape.use(klay);
 export function main() {
   const editorContainer = document.getElementById('monaco-editor')!;
   const graphContainer = document.getElementById('graph')!;
@@ -59,6 +62,7 @@ export function main() {
     },
   };
 
+  cytoscape.use(klay);
   cytoscape.use(dagre);
 
   const cy = cytoscape({
@@ -93,7 +97,11 @@ export function main() {
     cy.fit();
 
     // More dagre options https://github.com/cytoscape/cytoscape.js-dagre
-    cy.layout({name: 'dagre', rankDir: 'TB'} as any).run();
+    cy.layout({
+      name: 'klay',
+      rankDir: 'TB',
+      // ranker: 'longest-path',
+    } as any).run();
   });
 
   setupDropdownSamples(editor);
