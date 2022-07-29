@@ -12,10 +12,8 @@ import {
 import {partitionGraph} from './ast-traverser/graph/partitionGraph';
 import {edgecases, havby, postings, simple, view} from './samples';
 
-cytoscape.use(klay);
 export function main() {
   const editorContainer = document.getElementById('monaco-editor')!;
-  const graphContainer = document.getElementById('graph')!;
 
   const callGraphButton = document.getElementById('call-graph-btn')!;
   const variablesGraphBtn = document.getElementById('variables-graph-btn')!;
@@ -30,45 +28,7 @@ export function main() {
     editor.layout();
   });
 
-  const cytoscapeOptions: cytoscape.CytoscapeOptions = {
-    style: [
-      // the stylesheet for the graph
-      {
-        selector: 'node',
-        style: {
-          'background-color': '#666',
-          label: 'data(id)',
-        },
-      },
-      {
-        selector: '.function',
-        style: {
-          'background-color': '#d6443a',
-        },
-      },
-      {
-        selector: 'edge',
-        style: {
-          width: 3,
-          'line-color': '#ccc',
-          'target-arrow-color': '#ccc',
-          'target-arrow-shape': 'triangle',
-          'curve-style': 'bezier',
-        },
-      },
-    ],
-    layout: {
-      name: 'grid',
-    },
-  };
-
-  cytoscape.use(klay);
-  cytoscape.use(dagre);
-
-  const cy = cytoscape({
-    container: graphContainer, // container to render in
-    ...cytoscapeOptions,
-  });
+  const cy = setupCytoscape();
 
   let currentCall = 0;
   callGraphButton.addEventListener('click', () => {
@@ -106,6 +66,50 @@ export function main() {
 
   setupDropdownSamples(editor);
   setupResize(editor);
+}
+
+function setupCytoscape() {
+  const graphContainer = document.getElementById('graph')!;
+
+  const cytoscapeOptions: cytoscape.CytoscapeOptions = {
+    style: [
+      // the stylesheet for the graph
+      {
+        selector: 'node',
+        style: {
+          'background-color': '#666',
+          label: 'data(id)',
+        },
+      },
+      {
+        selector: '.function',
+        style: {
+          'background-color': '#d6443a',
+        },
+      },
+      {
+        selector: 'edge',
+        style: {
+          width: 3,
+          'line-color': '#ccc',
+          'target-arrow-color': '#ccc',
+          'target-arrow-shape': 'triangle',
+          'curve-style': 'bezier',
+        },
+      },
+    ],
+    layout: {
+      name: 'grid',
+    },
+  };
+
+  cytoscape.use(klay);
+  cytoscape.use(dagre);
+
+  return cytoscape({
+    container: graphContainer, // container to render in
+    ...cytoscapeOptions,
+  });
 }
 
 const valueCodeMap = {
