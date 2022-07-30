@@ -12,10 +12,11 @@ This project also shows how to refactor a large vanilla JS front-end client, tha
 - [@babel/standalone](https://babeljs.io/docs/en/babel-standalone) - Browser JS AST traversal
 - [cytoscape](https://js.cytoscape.org/) - Diagram drawing tool
 - [cytoscape-dagre](https://github.com/cytoscape/cytoscape.js-dagre) - Order Directed graphs hierarchically
+- [cytoscape-klay](https://github.com/cytoscape/cytoscape.js-klay) - Order nodes
 
 ## Issues
 
 - [css-loader not loading fonts for the monaco editor](https://github.com/microsoft/monaco-editor/issues/2742#issuecomment-895465110)
   - possibly due to `file-loader` deprecation in Webpack 5.0
 - [Critical dependency: the request of a dependency is an expression](https://github.com/babel/babel/issues/14301#issuecomment-1054299724)
-  - Can be ignored at the moment (click x in the top right corner)
+  - Fixed by ignoring using webpack `ignoreWarnings` ([here](https://github.com/balamou/codemod.dev/blob/main/webpack.dev.js#L29-L34))

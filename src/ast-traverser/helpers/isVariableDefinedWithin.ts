@@ -17,13 +17,13 @@ export function isVariableDefinedWithin(
     // @ts-ignore
     isDefinedWithinFunction = path.scope.hasOwnBinding(varName, true);
 
-    const didReachedFunctionDelcaration =
+    const didReachedFunctionDeclaration =
       isFunctionDeclaration(path.node) &&
       path.node.id?.name === parentFunctionName; // current function name
 
     // stop as soon as variabled is bound in the scope
     // or we reached the function declaration
-    return isDefinedWithinFunction || didReachedFunctionDelcaration;
+    return isDefinedWithinFunction || didReachedFunctionDeclaration;
   });
 
   return isDefinedWithinFunction;
